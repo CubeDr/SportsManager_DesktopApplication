@@ -9,7 +9,12 @@ class CompetitionProperty {
     var date: LocalDate by property(LocalDate.now())
     var pw: String by property("")
 
-    fun build() = Competition(name, location, Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()), pw)
+    fun build() = Competition(
+        name = name,
+        location = location,
+        date = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()),
+        pw = pw
+    )
 }
 
 fun UIComponent.newCompetitionDialog(action: (Competition?) -> Unit) {
