@@ -47,6 +47,12 @@ class MainTab: View("대회 목록") {
             button("대회 개최") {
                 layoutY = 340.0
                 prefWidth = 230.0
+
+                action {
+                    newCompetitionDialog {
+                        println(it)
+                    }
+                }
             }
         }
     }
