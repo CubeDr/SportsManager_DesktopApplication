@@ -11,11 +11,11 @@ class SportsManagerView: View("스포츠 대회 관리 시스템") {
             prefWidth = 600.0
             prefHeight = 400.0
 
-            newTab(MainTab())
+            newTab(MainTab(this@tabpane))
 
             tab<NewTab> {
                 setOnSelectionChanged {
-                    newTab(MainTab()) {
+                    newTab(MainTab(this@tabpane)) {
                         tabs.move(this, tabs.size-2)
                         select()
                     }
