@@ -1,6 +1,4 @@
-import javafx.geometry.Insets
 import javafx.scene.Parent
-import javafx.scene.layout.Priority
 import tornadofx.*
 
 
@@ -27,22 +25,28 @@ class MainTab: View("대회 목록") {
             }
         }
 
-        borderpane {
-            layoutX = 350.0
+        anchorpane {
+            layoutX = 360.0
             prefWidth = 250.0
             prefHeight = 400.0
-            paddingAll = 30.0
 
-            top = text {
-                text="경기 정보"
+            text("경기 정보") {
+                layoutY = 20.0
             }
-            bottom = vbox {
-                style="-fx-background-color: yellow;"
-                button("대회 입장") { hgrow = Priority.ALWAYS }
-                button("대회 개최") { hgrow = Priority.ALWAYS }
-            }
-            center = pane {
+            pane {
+                layoutY = 40.0
+                prefWidth = 230.0
+                prefHeight = 250.0
                 style="-fx-background-color: lightgray;"
+            }
+            button("대회 입장") {
+                layoutY = 300.0
+                prefWidth = 230.0
+                isDisable = true
+            }
+            button("대회 개최") {
+                layoutY = 340.0
+                prefWidth = 230.0
             }
         }
     }
