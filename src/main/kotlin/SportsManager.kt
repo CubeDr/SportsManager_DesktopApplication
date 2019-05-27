@@ -1,3 +1,4 @@
+import javafx.scene.control.Tab
 import tornadofx.*
 
 class SportsManager : App(SportsManagerView::class)
@@ -5,14 +6,16 @@ class SportsManager : App(SportsManagerView::class)
 class SportsManagerView: View("스포츠 대회 관리 시스템") {
     override val root = anchorpane {
         tabpane {
+            fun newTab(v: UIComponent, op: Tab.() -> Unit = {}) = tab(v.title) { add(v) }.also(op)
+
             prefWidth = 600.0
             prefHeight = 400.0
-            val tabPane = this
 
-            tab<MainTab> {}
+            newTab(MainTab())
+
             tab<NewTab> {
                 setOnSelectionChanged {
-                    tab<MainTab> {
+                    newTab(MainTab()) {
                         tabs.move(this, tabs.size-2)
                         select()
                     }
