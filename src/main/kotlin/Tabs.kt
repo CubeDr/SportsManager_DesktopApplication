@@ -8,13 +8,10 @@ import javafx.scene.control.ScrollPane
 import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
 import tornadofx.*
-import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
-import kotlin.random.Random
 
 
-
-class CompetitionTab1(
+class CompetitionTab(
     private val competition: Competition,
     private val tabPane: TabPane,
     private val op: Tab.() -> Unit = {}

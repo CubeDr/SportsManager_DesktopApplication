@@ -68,7 +68,7 @@ class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") 
                             // get id from server
                             val id = controller.createCompetition(it)
                             val competition = it.copy(id = id)
-                            CompetitionTab1(competition, tabPane)
+                            CompetitionTab(competition, tabPane)
                         }
                     }
                 }
