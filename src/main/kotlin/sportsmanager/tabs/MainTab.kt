@@ -1,11 +1,14 @@
 package sportsmanager.tabs
 
-import sportsmanager.COMPETITION
-import sportsmanager.Competition
-import sportsmanager.Repeat
-import sportsmanager.SERVER_URL
 import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
+import javafx.scene.control.TableView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.javafx.JavaFx
+import kotlinx.coroutines.launch
+import sportsmanager.*
+import sportsmanager.dialogs.enterCompetitionDialog
 import sportsmanager.dialogs.newCompetitionDialog
 import tornadofx.*
 import javax.json.Json
@@ -13,11 +16,17 @@ import javax.json.Json
 class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") {
     private val controller: MainTabController by inject()
     private val competition = mutableListOf<Competition>().asObservable()
-    private val polling = Repeat(
+    private lateinit var competitionListView: TableView<Competition>
+    private val polling = Utils(
         operation = controller::listCompetition,
         postOperation = {
+            val item = competitionListView.selectedItem
             competition.clear()
             competition.addAll(it)
+
+            GlobalScope.launch(Dispatchers.JavaFx) {
+                competitionListView.selectWhere { competition ->  competition == item }
+            }
             println(it.toString())
         }
     )
@@ -30,7 +39,7 @@ class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") 
         prefWidth = 600.0
         prefHeight = 400.0
 
-        tableview(competition) {
+        competitionListView = tableview(competition) {
             prefWidth = 350.0
             prefHeight = 400.0
 

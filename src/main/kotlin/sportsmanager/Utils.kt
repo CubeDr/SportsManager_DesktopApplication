@@ -5,7 +5,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class Repeat<T>(
+class Utils<T>(
     private val delayMillis: Long = 5000,
     private val operation: () -> T,
     private val postOperation: (T) -> Unit)
@@ -23,4 +23,8 @@ class Repeat<T>(
     }
 
     fun stop() = job?.cancel()
+}
+
+inline fun <T:Any, R> T?.notNull(callback: (T)->R): R? {
+    return this?.let(callback)
 }
