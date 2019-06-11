@@ -6,9 +6,17 @@ import javax.json.Json
 class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") {
     private val controller: MainTabController by inject()
     private val competition = mutableListOf<Competition>().asObservable()
+    private val polling = Repeat(
+        operation = controller::listCompetition,
+        postOperation = {
+            competition.clear()
+            competition.addAll(it)
+            println(it.toString())
+        }
+    )
 
     init {
-        competition.addAll(controller.listCompetition())
+        polling.start()
     }
 
     override val root = anchorpane {
