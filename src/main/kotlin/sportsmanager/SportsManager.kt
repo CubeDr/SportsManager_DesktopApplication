@@ -1,4 +1,7 @@
+package sportsmanager
+
 import javafx.scene.control.Tab
+import sportsmanager.tabs.*
 import tornadofx.*
 
 class SportsManager : App(SportsManagerView::class)

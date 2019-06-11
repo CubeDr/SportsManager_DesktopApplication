@@ -1,3 +1,5 @@
+package sportsmanager
+
 import java.time.LocalDate
 
 data class Competition(

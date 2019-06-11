@@ -1,7 +1,10 @@
+package sportsmanager.dialogs
+
+import sportsmanager.Competition
 import tornadofx.*
 import java.time.LocalDate
 
-class CompetitionProperty {
+private class CompetitionProperty {
     var name: String by property("")
     var location: String by property("")
     var date: LocalDate by property(LocalDate.now())
