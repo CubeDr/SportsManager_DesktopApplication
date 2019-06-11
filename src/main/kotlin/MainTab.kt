@@ -2,13 +2,14 @@ import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
 import tornadofx.*
 import javax.json.Json
-import javax.json.JsonObject
-import javax.json.JsonObjectBuilder
-import kotlin.random.Random
 
 class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") {
     private val controller: MainTabController by inject()
-    private val competition = listOf<Competition>().asObservable()
+    private val competition = mutableListOf<Competition>().asObservable()
+
+    init {
+        competition.addAll(controller.listCompetition())
+    }
 
     override val root = anchorpane {
         prefWidth = 600.0
@@ -70,6 +71,17 @@ class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") 
 
 class MainTabController: Controller() {
     private val api: Rest by inject()
+
+    fun listCompetition() = api.get(SERVER_URL + COMPETITION).list().map {
+        val jo = it.asJsonObject()
+        Competition(
+            jo.getString("_id"),
+            jo.getString("name"),
+            jo.getString("location"),
+            jo.getDate("date"),
+            jo.getString("password")
+        )
+    }
 
     fun createCompetition(competition: Competition): String {
         val jsonValue = Json.createObjectBuilder()

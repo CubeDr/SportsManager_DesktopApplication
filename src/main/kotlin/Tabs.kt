@@ -9,6 +9,7 @@ import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
 import tornadofx.*
 import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import kotlin.random.Random
 
 
@@ -48,7 +49,8 @@ class CompetitionTab1(
                 }
                 hbox(5) {
                     text("일시:")
-                    text(SimpleDateFormat("yyyy년 M월 d일").format(competition.date))
+                    text(competition.date.format(
+                        DateTimeFormatter.ofPattern("yyyy년 M월 d일")))
                 }
             }
         }

@@ -1,7 +1,5 @@
 import tornadofx.*
 import java.time.LocalDate
-import java.time.ZoneId
-import java.util.*
 
 class CompetitionProperty {
     var name: String by property("")
@@ -12,7 +10,7 @@ class CompetitionProperty {
     fun build() = Competition(
         name = name,
         location = location,
-        date = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()),
+        date = date,
         pw = pw
     )
 }
