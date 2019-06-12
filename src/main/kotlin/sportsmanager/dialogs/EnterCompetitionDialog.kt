@@ -6,7 +6,7 @@ import sportsmanager.Competition
 import sportsmanager.toString
 import tornadofx.*
 
-fun UIComponent.enterCompetitionDialog(competition: Competition) {
+fun UIComponent.enterCompetitionDialog(competition: Competition, listener: (result: Boolean, password: String?) -> Unit) {
     val pf: PasswordField = PasswordField().apply { promptText = "비밀번호" }
 
     dialog("대회 입장") {
@@ -30,12 +30,13 @@ fun UIComponent.enterCompetitionDialog(competition: Competition) {
             paddingTop = 10
             paddingBottom = 5
             button("취소").action {
+                listener.invoke(false, null)
                 close()
             }
             button("확인") {
                 action {
 //                    val password = pf.text
-//                    println(password)
+                    listener.invoke(true, null)
                     close()
                 }
             }

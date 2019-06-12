@@ -31,4 +31,4 @@ inline fun <T:Any, R> T?.notNull(callback: (T)->R): R? {
     return this?.let(callback)
 }
 
-fun LocalDate.toString(format: String) = this.format(DateTimeFormatter.ofPattern(format))
+fun LocalDate.toString(format: String): String = this.format(DateTimeFormatter.ofPattern(format))

@@ -75,7 +75,12 @@ class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") 
                 isDisable = true
 
                 action {
-                    competitionListView.selectedItem.notNull { enterCompetitionDialog(it) }
+                    competitionListView.selectedItem.notNull {
+                        enterCompetitionDialog(it) { result, _ ->
+                            if(!result) return@enterCompetitionDialog
+                            println("Enter!")
+                        }
+                    }
                 }
 
                 competitionListView.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
