@@ -27,7 +27,6 @@ class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") 
             GlobalScope.launch(Dispatchers.JavaFx) {
                 competitionListView.selectWhere { competition ->  competition == item }
             }
-            println(it.toString())
         }
     )
 
@@ -78,7 +77,7 @@ class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") 
                     competitionListView.selectedItem.notNull {
                         enterCompetitionDialog(it) { result, _ ->
                             if(!result) return@enterCompetitionDialog
-                            println("Enter!")
+                            CompetitionTab(it, tabPane, false)
                         }
                     }
                 }
@@ -97,7 +96,7 @@ class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") 
                             // get id from server
                             val id = controller.createCompetition(it)
                             val competition = it.copy(id = id)
-                            CompetitionTab(competition, tabPane)
+                            CompetitionTab(competition, tabPane, true)
                         }
                     }
                 }

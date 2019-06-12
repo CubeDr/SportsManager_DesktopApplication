@@ -12,17 +12,17 @@ import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
 import sportsmanager.toString
 import tornadofx.*
-import java.time.format.DateTimeFormatter
 
 
 class CompetitionTab(
     private val competition: Competition,
     private val tabPane: TabPane,
+    private val managable: Boolean,
     private val op: Tab.() -> Unit = {}
 ): View(competition.name) {
 
     private val gameStatus = gridpane {
-
+        prefHeight = 340.0
     }
     private val competitionInfoWindow = anchorpane {
         text("대회 정보") {
@@ -34,7 +34,7 @@ class CompetitionTab(
             layoutX = 0.0
             layoutY = 13.0
             prefWidth = 200.0
-            prefHeight = 200.0
+            prefHeight = if(managable) 200.0 else 340.0
             style = "-fx-background-color: transparent; -fx-background: lightgray"
 
             vbox(10) {
@@ -82,16 +82,18 @@ class CompetitionTab(
                     // competition info
                     add(competitionInfoWindow)
                 }
-                bottom {
-                    flowpane {
-                        prefHeight = 120.0
-                        alignment = Pos.BOTTOM_CENTER
+                if(managable) {
+                    bottom {
+                        flowpane {
+                            prefHeight = 120.0
+                            alignment = Pos.BOTTOM_CENTER
 
-                        val qrCodeWriter = QRCodeWriter()
-                        val bitMatrix = qrCodeWriter.encode(competition.id.toString(), BarcodeFormat.QR_CODE, 100, 100)
-                        val bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix)
-                        imageview(SwingFXUtils.toFXImage(bufferedImage, null)) {
-                            style = "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);"
+                            val qrCodeWriter = QRCodeWriter()
+                            val bitMatrix = qrCodeWriter.encode(competition.id.toString(), BarcodeFormat.QR_CODE, 100, 100)
+                            val bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix)
+                            imageview(SwingFXUtils.toFXImage(bufferedImage, null)) {
+                                style = "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);"
+                            }
                         }
                     }
                 }
