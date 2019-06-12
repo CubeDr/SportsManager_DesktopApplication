@@ -6,24 +6,33 @@ import com.google.zxing.client.j2se.MatrixToImageWriter
 import com.google.zxing.qrcode.QRCodeWriter
 import javafx.embed.swing.SwingFXUtils
 import javafx.geometry.Pos
-import javafx.scene.Parent
 import javafx.scene.control.ScrollPane
 import javafx.scene.control.Tab
-import javafx.scene.control.TabPane
+import sportsmanager.Game
+import sportsmanager.components.GameView
 import sportsmanager.toString
 import tornadofx.*
-
+import kotlin.random.Random
 
 class CompetitionTab(
     private val competition: Competition,
-    private val tabPane: TabPane,
-    private val managable: Boolean,
-    private val op: Tab.() -> Unit = {}
-): View(competition.name) {
+    private val managable: Boolean
+): Tab(competition.name) {
+    private val gameList = mutableListOf<GameView>()
 
     private val gameStatus = gridpane {
-        prefHeight = 340.0
+        prefWidth = 375.0
+        paddingAll = 5.0
+        hgap = 5.0
+        vgap = 5.0
     }
+    private fun addGame(gameView: GameView) {
+        val columnIndex = gameList.size % 3
+        val rowIndex = gameList.size / 3
+        gameList.add(gameView)
+        gameStatus.add(gameView.root, columnIndex, rowIndex)
+    }
+
     private val competitionInfoWindow = anchorpane {
         text("대회 정보") {
             layoutY = 10.0
@@ -56,7 +65,7 @@ class CompetitionTab(
         }
     }
 
-    override val root: Parent = borderpane {
+    private val root = borderpane {
         paddingAll = 10.0
         center {
             borderpane {
@@ -102,10 +111,18 @@ class CompetitionTab(
     }
 
     init {
-        tabPane.tab(title) { add(root) }.also {
-            tabPane.tabs.move(it, tabPane.tabs.size-2)
-            it.select()
-            op
+        content = root
+
+        repeat(30) {
+            val state = Random.nextInt(8)
+            addGame(GameView(Game(
+                (it + 1).toString(),
+                it,
+                1,
+                state,
+                mutableListOf(Random.nextInt(25), Random.nextInt(25)),
+                ""
+            )))
         }
     }
 }

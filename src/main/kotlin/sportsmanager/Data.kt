@@ -9,3 +9,12 @@ data class Competition(
     val date: LocalDate,
     val pw: String
 )
+
+data class Game(
+    val id: String,
+    val court: Int,
+    var number: Int,
+    var state: Int,
+    var scores: MutableList<Int>,
+    val competitionId: String
+)

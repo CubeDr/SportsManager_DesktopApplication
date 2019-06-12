@@ -77,7 +77,7 @@ class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") 
                     competitionListView.selectedItem.notNull {
                         enterCompetitionDialog(it) { result, _ ->
                             if(!result) return@enterCompetitionDialog
-                            CompetitionTab(it, tabPane, false)
+                            tabPane.addToLast(CompetitionTab(it, false))
                         }
                     }
                 }
@@ -96,7 +96,7 @@ class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") 
                             // get id from server
                             val id = controller.createCompetition(it)
                             val competition = it.copy(id = id)
-                            CompetitionTab(competition, tabPane, true)
+                            tabPane.addToLast(CompetitionTab(competition, true))
                         }
                     }
                 }
