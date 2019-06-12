@@ -1,5 +1,510 @@
 GET http://localhost:8080/competition
 
+<> 2019-06-12T094655.200.json
+
+###
+
+GET http://localhost:8080/competition
+
+<> 2019-06-12T094651.200.json
+
+###
+
+POST http://localhost:8080/game/5cff93bbdf969206455eac03
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094648.200.json
+
+###
+
+POST http://localhost:8080/game/5cff93bbdf969206455eac03
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094646.200.json
+
+###
+
+POST http://localhost:8080/game/5cff93bbdf969206455eac03
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094644.200.json
+
+###
+
+GET http://localhost:8080/game/list/5cff93bbdf969206455eac03
+
+<> 2019-06-12T094641.200.json
+
+###
+
+GET http://localhost:8080/competition
+
+<> 2019-06-12T094631.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094424.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094411.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094350.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094348.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094345.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094255.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094210.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094158.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094155.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094139.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094026.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T094017.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T093948.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T093927.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T093817.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T093746.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T093720.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+###
+
+GET http://localhost:8080/game/list/5d00a18edf969206455eac04
+
+<> 2019-06-12T093612.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T093604.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T093523.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T093519.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T093427.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T093357.500.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T092914.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T092850.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T092836.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T092207.200.json
+
+###
+
+POST http://localhost:8080/game/5d00a18edf969206455eac04
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-12T092156.200.json
+
+###
+
+GET http://localhost:8080/game/list/5d00a18edf969206455eac04
+
+<> 2019-06-12T092005.200.json
+
+###
+
+GET http://localhost:8080/competition
+
+<> 2019-06-12T091956.200.json
+
+###
+
+GET http://localhost:8080/competition
+
 <> 2019-06-11T080548.200.json
 
 ###

@@ -17,16 +17,14 @@ class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") 
     private val controller: MainTabController by inject()
     private val competition = mutableListOf<Competition>().asObservable()
     private lateinit var competitionListView: TableView<Competition>
-    private val polling = Utils(
+    private val polling = Repeat(
         operation = controller::listCompetition,
         postOperation = {
             val item = competitionListView.selectedItem
             competition.clear()
             competition.addAll(it)
 
-            GlobalScope.launch(Dispatchers.JavaFx) {
-                competitionListView.selectWhere { competition ->  competition == item }
-            }
+            competitionListView.selectWhere { competition ->  competition == item }
         }
     )
 

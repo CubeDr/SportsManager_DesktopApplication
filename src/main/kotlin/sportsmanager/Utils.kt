@@ -2,16 +2,14 @@ package sportsmanager
 
 import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.javafx.JavaFx
 import tornadofx.move
 import tornadofx.select
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class Utils<T>(
+class Repeat<T>(
     private val delayMillis: Long = 5000,
     private val operation: () -> T,
     private val postOperation: (T) -> Unit)
@@ -22,7 +20,10 @@ class Utils<T>(
         stop()
         job = GlobalScope.launch {
             while(true) {
-                postOperation(operation())
+                val result = operation()
+                GlobalScope.launch(Dispatchers.JavaFx) {
+                    postOperation(result)
+                }
                 delay(delayMillis)
             }
         }

@@ -1,36 +1,38 @@
 package sportsmanager.tabs
 
-import sportsmanager.Competition
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.client.j2se.MatrixToImageWriter
 import com.google.zxing.qrcode.QRCodeWriter
+import javafx.collections.MapChangeListener
 import javafx.embed.swing.SwingFXUtils
 import javafx.geometry.Pos
 import javafx.scene.control.ScrollPane
 import javafx.scene.control.Tab
-import sportsmanager.Game
+import sportsmanager.*
 import sportsmanager.components.GameView
-import sportsmanager.toString
 import tornadofx.*
-import kotlin.random.Random
 
 class CompetitionTab(
-    private val competition: Competition,
-    private val managable: Boolean
+    competition: Competition,
+    managable: Boolean
 ): Tab(competition.name) {
-    private val gameList = mutableListOf<GameView>()
+    private val view = CompetitionView(competition, managable)
+
+    init {
+        content = view.root
+    }
+}
+
+class CompetitionView(competition: Competition, managable: Boolean): View() {
+    private val controller: CompetitionTabController by inject()
+
+    private val gameViewMap = mutableMapOf<String, GameView>()
 
     private val gameStatus = gridpane {
         prefWidth = 375.0
         paddingAll = 5.0
         hgap = 5.0
         vgap = 5.0
-    }
-    private fun addGame(gameView: GameView) {
-        val columnIndex = gameList.size % 3
-        val rowIndex = gameList.size / 3
-        gameList.add(gameView)
-        gameStatus.add(gameView.root, columnIndex, rowIndex)
     }
 
     private val competitionInfoWindow = anchorpane {
@@ -65,7 +67,7 @@ class CompetitionTab(
         }
     }
 
-    private val root = borderpane {
+    override val root = borderpane {
         paddingAll = 10.0
         center {
             borderpane {
@@ -111,18 +113,61 @@ class CompetitionTab(
     }
 
     init {
-        content = root
+        controller.gameMap.addListener { change: MapChangeListener.Change<out String, out Game> ->
+            println("Changed")
+            if(change.wasAdded()) {
+                addGame(change.valueAdded)
+            } else if(change.wasRemoved()) {
+                // TODO 연결이 끊겼을 때 처리
+            }
+        }
+        competition.id?.let { controller.startPollingGames(it) }
+    }
 
-        repeat(30) {
-            val state = Random.nextInt(8)
-            addGame(GameView(Game(
-                (it + 1).toString(),
-                it,
-                1,
-                state,
-                mutableListOf(Random.nextInt(25), Random.nextInt(25)),
-                ""
-            )))
+    private fun addGame(game: Game) {
+        val gameView = GameView(game)
+        val columnIndex = gameViewMap.size % 3
+        val rowIndex = gameViewMap.size / 3
+        gameViewMap[game.id] = gameView
+        gameStatus.add(
+            gameView.root,
+            columnIndex,
+            rowIndex)
+    }
+}
+
+class CompetitionTabController: Controller() {
+    internal val gameMap = mutableMapOf<String, Game>().asObservable()
+    private val api: Rest by inject()
+    private var competitionId: String? = null
+
+    private val polling = Repeat(
+        operation = ::listGames,
+        postOperation = { list ->
+            list.forEach {
+                gameMap[it.id] = it
+            }
+        }
+    )
+
+    fun startPollingGames(competitionId: String) {
+        this.competitionId = competitionId
+        polling.start()
+    }
+
+    private fun listGames(): List<Game> {
+        return api.get("$SERVER_URL$GAME/list/$competitionId").list().map {
+            println(it.toString())
+            with(it.asJsonObject()) {
+                Game(
+                    getString("_id"),
+                    getInt("court"),
+                    getInt("number"),
+                    getInt("state"),
+                    mutableListOf(0, 0),
+                    getString("competition_id")
+                )
+            }
         }
     }
 }
