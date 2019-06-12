@@ -4,6 +4,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class Utils<T>(
     private val delayMillis: Long = 5000,
@@ -28,3 +30,5 @@ class Utils<T>(
 inline fun <T:Any, R> T?.notNull(callback: (T)->R): R? {
     return this?.let(callback)
 }
+
+fun LocalDate.toString(format: String) = this.format(DateTimeFormatter.ofPattern(format))

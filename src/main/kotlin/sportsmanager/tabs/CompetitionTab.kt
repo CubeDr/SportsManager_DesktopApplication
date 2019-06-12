@@ -10,6 +10,7 @@ import javafx.scene.Parent
 import javafx.scene.control.ScrollPane
 import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
+import sportsmanager.toString
 import tornadofx.*
 import java.time.format.DateTimeFormatter
 
@@ -49,8 +50,7 @@ class CompetitionTab(
                 }
                 hbox(5) {
                     text("일시:")
-                    text(competition.date.format(
-                        DateTimeFormatter.ofPattern("yyyy년 M월 d일")))
+                    text(competition.date.toString("yyyy년 M월 d일"))
                 }
             }
         }

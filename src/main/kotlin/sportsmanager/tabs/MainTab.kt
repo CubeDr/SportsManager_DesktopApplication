@@ -73,6 +73,14 @@ class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") 
                 layoutY = 300.0
                 prefWidth = 230.0
                 isDisable = true
+
+                action {
+                    competitionListView.selectedItem.notNull { enterCompetitionDialog(it) }
+                }
+
+                competitionListView.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
+                    this.isDisable = newValue == null
+                }
             }
             button("대회 개최") {
                 layoutY = 340.0
