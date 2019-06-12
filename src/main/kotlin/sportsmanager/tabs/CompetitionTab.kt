@@ -20,6 +20,9 @@ class CompetitionTab(
 
     init {
         content = view.root
+        setOnClosed {
+            view.stop()
+        }
     }
 }
 
@@ -124,6 +127,10 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
         competition.id?.let { controller.startPollingGames(it) }
     }
 
+    fun stop() {
+        controller.stopPolling()
+    }
+
     private fun addGame(game: Game) {
         val gameView = GameView(game)
         val columnIndex = gameViewMap.size % 3
@@ -153,6 +160,10 @@ class CompetitionTabController: Controller() {
     fun startPollingGames(competitionId: String) {
         this.competitionId = competitionId
         polling.start()
+    }
+
+    fun stopPolling() {
+        polling.stop()
     }
 
     private fun listGames(): List<Game> {
