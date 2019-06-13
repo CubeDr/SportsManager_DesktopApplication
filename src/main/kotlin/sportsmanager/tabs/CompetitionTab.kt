@@ -149,6 +149,7 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
         leftAnchor(0.0)
         rightAnchor(0.0)
 
+
         vbox {
             alignment = Pos.TOP_CENTER
             style = "-fx-background-color: black; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);"
@@ -214,7 +215,17 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
             hbox {
                 gameViewSituations.forEach { add(it) }
             }
-        }
+        } // vbox
+
+        button("X") {
+            style = "-fx-background-color: black; -fx-border-radius: 50"
+            textFill = Color.WHITE
+            topAnchor(60.0)
+            rightAnchor(50.0)
+            action {
+                closeGameView()
+            }
+        } // button
     }
 
     override val root = anchorpane {
@@ -262,7 +273,6 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
             rowIndex
         )
         gameView.action {
-            println("Hello")
             selectGame(game)
         }
     }
