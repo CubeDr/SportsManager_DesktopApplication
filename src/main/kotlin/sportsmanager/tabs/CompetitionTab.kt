@@ -249,7 +249,6 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
     init {
         closeGameView()
         controller.gameMap.addListener { change: MapChangeListener.Change<out String, out Game> ->
-            println("Changed")
             if(change.wasAdded()) {
                 addGame(change.valueAdded)
             } else if(change.wasRemoved()) {
