@@ -335,11 +335,7 @@ class CompetitionTabController: Controller() {
         operation = ::listGames,
         postOperation = { list ->
             list.forEach {
-                val game = gameMap.getOrPut(it.id) { it }
-                it.scores.forEachIndexed { index, i ->
-                    game.setScore(index, i)
-                }
-                game.state = it.state
+                gameMap.getOrPut(it.id) { it } replaceTo it
             }
         }
     )
@@ -397,7 +393,7 @@ class CompetitionTabController: Controller() {
             with(it.asJsonObject()) {
                 val teamA = getJsonObject("team_A")
                 val teamB = getJsonObject("team_B")
-                val scores = mutableListOf(teamA.getInt("score"), teamB.getInt("score")).asObservable()
+                val scores = mutableListOf(teamA.getInt("score"), teamB.getInt("score"))
                 val players = mutableListOf<Player>()
 
                 Game(

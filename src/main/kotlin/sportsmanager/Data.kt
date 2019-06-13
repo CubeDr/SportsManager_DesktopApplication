@@ -18,37 +18,38 @@ data class Game(
     val court: Int,
     private var _number: Int,
     private var _state: Int,
-    private var _scores: ObservableList<Int>,
+    private val _scores: MutableList<Int>,
     val players: List<Player>,
     val competitionId: String
 ): Observable() {
-    var number: Int
+    val number: Int
         get() = _number
-        set(value) {
-            _number = value
-            notifyObservers()
-        }
-    var state: Int
+
+    val state: Int
         get() = _state
-        set(value) {
-            if(_state != value) {
-                _state = value
-                notifyObservers()
-            }
-        }
+
     val scores: List<Int>
         get() = _scores
 
-    fun setScore(team: Int, score: Int) {
-        while(_scores.size <= team) _scores.add(0)
-        _scores[team] = score
+    infix fun replaceTo(other: Game) {
+        if(_number != other.number) setChanged()
+        _number = other.number
+
+        if(_state != other.state) setChanged()
+        _state = other.state
+
+        _scores.forEachIndexed { team, score ->
+            if(score != other.scores[team]) {
+                setChanged()
+                return@forEachIndexed
+            }
+        }
+        _scores.clear()
+        _scores.addAll(other.scores)
+
         notifyObservers()
     }
 
-    override fun notifyObservers() {
-        setChanged()
-        super.notifyObservers()
-    }
 }
 
 data class Player(
