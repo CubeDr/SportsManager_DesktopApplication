@@ -12,7 +12,7 @@ import tornadofx.*
 
 class GameView(val game: Game): Button() {
     // 게임의 상태(점수, 상황) 변경 알림 함수
-    fun notifyGameChanged() {
+    private fun notifyGameChanged() {
         // 코트번호, 게임 번호 갱신
         lbTitle.text = "${game.court}코트 #${game.number}"
         // 스코어 갱신
@@ -60,6 +60,11 @@ class GameView(val game: Game): Button() {
         paddingAll = 0.0
         background = Background.EMPTY
         graphic = root
+
+        game.addObserver { _, _ ->
+            notifyGameChanged()
+        }
+
     }
 
     private fun scoreLabel(text: String? = null) = Label(text).apply {

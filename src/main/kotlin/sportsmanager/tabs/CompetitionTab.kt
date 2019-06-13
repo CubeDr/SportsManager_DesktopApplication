@@ -3,6 +3,7 @@ package sportsmanager.tabs
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.client.j2se.MatrixToImageWriter
 import com.google.zxing.qrcode.QRCodeWriter
+import javafx.collections.ListChangeListener
 import javafx.collections.MapChangeListener
 import javafx.embed.swing.SwingFXUtils
 import javafx.geometry.Pos
@@ -15,6 +16,7 @@ import javafx.scene.text.Font
 import sportsmanager.*
 import sportsmanager.components.GameView
 import tornadofx.*
+import java.util.*
 
 class CompetitionTab(
     competition: Competition,
@@ -250,14 +252,22 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
         controller.stopPolling()
     }
 
-    private fun selectGame(game: Game) {
+    private val onGameChangedListener = Observer { _, _ ->
+        val game = selectedGame?:return@Observer
         gameViewTitle.text = "${game.court}코트 ${game.number}경기"
         gameViewScores.forEachIndexed { index, label -> label.text = game.scores[index].toString() }
+    }
+
+    private fun selectGame(game: Game) {
         selectedGame = game
+        game.addObserver(onGameChangedListener)
+        onGameChangedListener.update(null, null)
         gameView.isVisible = true
+
     }
 
     private fun closeGameView() {
+        selectedGame?.deleteObserver(onGameChangedListener)
         selectedGame = null
         gameView.isVisible = false
     }
@@ -300,7 +310,10 @@ class CompetitionTabController: Controller() {
         operation = ::listGames,
         postOperation = { list ->
             list.forEach {
-                gameMap[it.id] = it
+                val game = gameMap.getOrPut(it.id) { it }
+                it.scores.forEachIndexed { index, i ->
+                    game.setScore(index, i)
+                }
             }
         }
     )
@@ -321,14 +334,19 @@ class CompetitionTabController: Controller() {
 
     private fun listGames(): List<Game> {
         return api.get("$SERVER_URL$GAME/list/$competitionId").list().map {
-            println(it.toString())
             with(it.asJsonObject()) {
+                val teamA = getJsonObject("team_A")
+                val teamB = getJsonObject("team_B")
+                val scores = mutableListOf(teamA.getInt("score"), teamB.getInt("score")).asObservable()
+                val players = mutableListOf<Player>()
+
                 Game(
                     getString("_id"),
                     getInt("court"),
                     getInt("number"),
                     getInt("state"),
-                    mutableListOf(0, 0),
+                    scores,
+                    players,
                     getString("competition_id")
                 )
             }
