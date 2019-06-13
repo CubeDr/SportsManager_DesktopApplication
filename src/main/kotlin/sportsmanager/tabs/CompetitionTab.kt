@@ -135,15 +135,16 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
         label(text = "김정모", color = Color.WHITE, size = 30.0).apply { prefWidth = 100.0 },
         label(text = "네프", color = Color.WHITE, size = 30.0).apply { prefWidth = 100.0 }
     )
+    private val situationColor = listOf("dodgerblue", "chartreuse", "blueviolet")
     private val gameViewSituations = listOf(
-        situationButton("셔틀콕 부족", "dodgerblue") {
-            println("Situation1")
+        situationButton("셔틀콕 부족") {
+            controller.toggleSituation(selectedGame?:return@situationButton, 0)
         },
-        situationButton("선수 없음", "chartreuse") {
-            println("Situation2")
+        situationButton("선수 없음") {
+            controller.toggleSituation(selectedGame?:return@situationButton, 1)
         },
-        situationButton("선수 부상", "blueviolet") {
-            println("Situation3")
+        situationButton("선수 부상") {
+            controller.toggleSituation(selectedGame?:return@situationButton, 2)
         }
     )
     private val gameView = anchorpane {
@@ -266,6 +267,10 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
         val game = selectedGame?:return@Observer
         gameViewTitle.text = "${game.court}코트 ${game.number}경기"
         gameViewScores.forEachIndexed { index, label -> label.text = game.scores[index].toString() }
+        gameViewSituations.forEachIndexed { index, button ->
+            val color = if(game.state and (1 shl index) > 0) situationColor[index] else "gray"
+            button.style = "-fx-background-color: $color; -fx-border-radius: 10;"
+        }
     }
 
     private fun selectGame(game: Game) {
@@ -297,8 +302,7 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
         }
     }
 
-    private fun situationButton(text: String, color: String, onClick: Button.() -> Unit = {}) = Button(text).apply {
-        style = "-fx-background-color: $color; -fx-border-radius: 10;"
+    private fun situationButton(text: String, onClick: Button.() -> Unit = {}) = Button(text).apply {
         font = Font(20.0)
         maxWidth = Double.MAX_VALUE
         hgrow = Priority.ALWAYS
@@ -324,6 +328,7 @@ class CompetitionTabController: Controller() {
                 it.scores.forEachIndexed { index, i ->
                     game.setScore(index, i)
                 }
+                game.state = it.state
             }
         }
     )
@@ -352,6 +357,13 @@ class CompetitionTabController: Controller() {
     fun rightTeamScoreDown(game: Game) {
         val teamB = teamScore(game, 1, -1)
         updateGame(game.id, teamB)
+    }
+    fun toggleSituation(game: Game, situationCode: Int) {
+        val situation = game.state xor (1 shl situationCode)
+        val situationObj = Json.createObjectBuilder()
+            .add("state", situation)
+            .build()
+        updateGame(game.id, situationObj)
     }
 
     private fun teamScore(game: Game, team: Int, scoreDelta: Int) = Json.createObjectBuilder()

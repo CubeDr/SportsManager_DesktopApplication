@@ -31,8 +31,10 @@ data class Game(
     var state: Int
         get() = _state
         set(value) {
-            _state = value
-            notifyObservers()
+            if(_state != value) {
+                _state = value
+                notifyObservers()
+            }
         }
     val scores: List<Int>
         get() = _scores
