@@ -1,5 +1,6 @@
 package sportsmanager.tabs
 
+import javafx.scene.control.ButtonType
 import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
 import javafx.scene.control.TableView
@@ -11,6 +12,7 @@ import sportsmanager.*
 import sportsmanager.dialogs.enterCompetitionDialog
 import sportsmanager.dialogs.newCompetitionDialog
 import tornadofx.*
+import java.lang.StringBuilder
 import javax.json.Json
 
 class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") {
@@ -73,9 +75,18 @@ class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") 
 
                 action {
                     competitionListView.selectedItem.notNull {
-                        enterCompetitionDialog(it) { result, _ ->
+                        enterCompetitionDialog(it) { result, password ->
                             if(!result) return@enterCompetitionDialog
-                            tabPane.addToLast(CompetitionTab(it, false))
+
+                            if(password != null) {
+                                if(controller.isManager(it, password))
+                                    tabPane.addToLast(CompetitionTab(it, true))
+                                else {
+                                    error("틀린 비밀번호", "대회 관리자 비밀번호가 아닙니다.", ButtonType.OK)
+                                }
+                            } else {
+                                tabPane.addToLast(CompetitionTab(it, false))
+                            }
                         }
                     }
                 }
@@ -113,7 +124,7 @@ class MainTabController: Controller() {
             jo.getString("name"),
             jo.getString("location"),
             jo.getDate("date"),
-            jo.getString("password")
+            ""
         )
     }
 
@@ -126,5 +137,15 @@ class MainTabController: Controller() {
         val response = api.post(SERVER_URL + COMPETITION, jsonValue)
         if(response.statusCode != 200) return "-${response.statusCode}"
         return response.list()[0].asJsonObject().getString("_id")
+    }
+
+    fun isManager(competition: Competition, password: String): Boolean {
+        val jsonValue = Json.createObjectBuilder()
+            .add("competId", competition.id)
+            .add("password", password)
+            .build()
+        val response = api.post(SERVER_URL + COMPETITION + ADMIN, jsonValue)
+        if(response.statusCode != 200) return false
+        return response.one().getBoolean("msg")
     }
 }

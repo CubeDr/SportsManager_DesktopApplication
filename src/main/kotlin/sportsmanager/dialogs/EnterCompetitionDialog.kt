@@ -35,8 +35,8 @@ fun UIComponent.enterCompetitionDialog(competition: Competition, listener: (resu
             }
             button("확인") {
                 action {
-//                    val password = pf.text
-                    listener.invoke(true, null)
+                    val password = if(pf.text.isEmpty()) null else pf.text
+                    listener.invoke(true, password)
                     close()
                 }
             }
