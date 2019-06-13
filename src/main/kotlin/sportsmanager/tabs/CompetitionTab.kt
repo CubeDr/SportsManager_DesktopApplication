@@ -17,6 +17,8 @@ import sportsmanager.*
 import sportsmanager.components.GameView
 import tornadofx.*
 import java.util.*
+import javax.json.Json
+import javax.json.JsonValue
 
 class CompetitionTab(
     competition: Competition,
@@ -170,12 +172,16 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
                 vbox {
                     spacing = 20.0
                     button("▲") {
-                        controller.leftTeamScoreUp()
                         isFocusTraversable = false
+                        action {
+                            controller.leftTeamScoreUp(selectedGame?:return@action)
+                        }
                     }
                     button("▼") {
-                        controller.leftTeamScoreDown()
                         isFocusTraversable = false
+                        action {
+                            controller.leftTeamScoreDown(selectedGame?:return@action)
+                        }
                     }
                 }
                 hbox {
@@ -187,12 +193,16 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
                 vbox {
                     spacing = 20.0
                     button("▲") {
-                        controller.rightTeamScoreUp()
                         isFocusTraversable = false
+                        action {
+                            controller.rightTeamScoreUp(selectedGame?:return@action)
+                        }
                     }
                     button("▼") {
-                        controller.rightTeamScoreDown()
                         isFocusTraversable = false
+                        action {
+                            controller.rightTeamScoreDown(selectedGame?:return@action)
+                        }
                     }
                 }
             }
@@ -327,10 +337,37 @@ class CompetitionTabController: Controller() {
         polling.stop()
     }
 
-    fun leftTeamScoreUp() {}
-    fun leftTeamScoreDown() {}
-    fun rightTeamScoreUp() {}
-    fun rightTeamScoreDown() {}
+    fun leftTeamScoreUp(game: Game) {
+        val teamA = teamScore(game, 0, 1)
+        updateGame(game.id, teamA)
+    }
+    fun leftTeamScoreDown(game: Game) {
+        val teamA = teamScore(game, 0, -1)
+        updateGame(game.id, teamA)
+    }
+    fun rightTeamScoreUp(game: Game) {
+        val teamB = teamScore(game, 1, 1)
+        updateGame(game.id, teamB)
+    }
+    fun rightTeamScoreDown(game: Game) {
+        val teamB = teamScore(game, 1, -1)
+        updateGame(game.id, teamB)
+    }
+
+    private fun teamScore(game: Game, team: Int, scoreDelta: Int) = Json.createObjectBuilder()
+        .add(if(team == 0) "team_A" else "team_B",
+            Json.createObjectBuilder()
+                .add("score", game.scores[team] + scoreDelta)
+                .build()
+        )
+        .build()
+    private fun updateGame(id: String, value: JsonValue) {
+        val response = api.put("$SERVER_URL$GAME/$id", value)
+        if(response.statusCode != 200) {
+            println("ERROR: Failed to update game(${response.statusCode})")
+            println("\t${response.reason}")
+        }
+    }
 
     private fun listGames(): List<Game> {
         return api.get("$SERVER_URL$GAME/list/$competitionId").list().map {
