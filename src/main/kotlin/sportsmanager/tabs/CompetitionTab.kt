@@ -138,12 +138,15 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
     private val situationColor = listOf("dodgerblue", "chartreuse", "blueviolet")
     private val gameViewSituations = listOf(
         situationButton("셔틀콕 부족") {
+            if(!managable) return@situationButton
             controller.toggleSituation(selectedGame?:return@situationButton, 0)
         },
         situationButton("선수 없음") {
+            if(!managable) return@situationButton
             controller.toggleSituation(selectedGame?:return@situationButton, 1)
         },
         situationButton("선수 부상") {
+            if(!managable) return@situationButton
             controller.toggleSituation(selectedGame?:return@situationButton, 2)
         }
     )
@@ -170,7 +173,7 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
             hbox {
                 alignment = Pos.CENTER
                 spacing = 50.0
-                vbox {
+                if(managable) vbox {
                     spacing = 20.0
                     button("▲") {
                         isFocusTraversable = false
@@ -191,7 +194,7 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
                     add(label(":", Color.WHITE, 60.0))
                     add(gameViewScores[1])
                 }
-                vbox {
+                if(managable) vbox {
                     spacing = 20.0
                     button("▲") {
                         isFocusTraversable = false
@@ -248,9 +251,18 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
 
     init {
         closeGameView()
+
+        // 탭이 생성될 시점에 로드되어있던 게임 추가
+        controller.gameMap.values
+            .filter { it.competitionId == competition.id }
+            .forEach { addGame(it) }
+
+        // 탭이 생성된 후에 로드되는 게임 추가
         controller.gameMap.addListener { change: MapChangeListener.Change<out String, out Game> ->
             if(change.wasAdded()) {
-                addGame(change.valueAdded)
+                val game = change.valueAdded
+                if(game.competitionId == competition.id)
+                    addGame(change.valueAdded)
             } else if(change.wasRemoved()) {
                 // TODO 연결이 끊겼을 때 처리
             }
