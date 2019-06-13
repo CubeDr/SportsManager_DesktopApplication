@@ -23,7 +23,7 @@ import javax.json.JsonValue
 class CompetitionTab(
     competition: Competition,
     managable: Boolean
-): Tab(competition.name) {
+): Tab((if(managable) "*" else "") + competition.name) {
     private val view = CompetitionView(competition, managable)
 
     init {
