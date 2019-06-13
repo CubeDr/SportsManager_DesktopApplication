@@ -16,7 +16,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class Repeat<T>(
-    private val delayMillis: Long = 5000,
+    private val delayMillis: Long = 500,
     private val operation: () -> T,
     private val postOperation: (T) -> Unit)
 {
