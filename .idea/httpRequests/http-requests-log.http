@@ -1,3 +1,57 @@
+POST http://localhost:8080/game/5d0125c38787fcb6c506f5e0
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-13T095033.200.json
+
+###
+
+POST http://localhost:8080/game/5d0125c38787fcb6c506f5e0
+
+{
+  "team_A": {
+      "players": ["0", "1"]
+  },
+  "team_B": {
+      "players": ["2", "3"]
+  }
+}
+
+<> 2019-06-13T095031.200.json
+
+###
+
+GET http://localhost:8080/game/list/5d0125c38787fcb6c506f5e0
+
+<> 2019-06-13T095027.200.json
+
+###
+
+GET http://localhost:8080/competition
+
+<> 2019-06-13T095021.200.json
+
+###
+
+GET http://localhost:8080/game/list/5cff93bbdf969206455eac03
+
+<> 2019-06-13T095013.200.json
+
+###
+
+GET http://localhost:8080/game/list/5cff93bbdf969206455eac03
+
+<> 2019-06-13T011755.200.json
+
+###
+
 GET http://localhost:8080/competition
 
 <> 2019-06-12T094655.200.json

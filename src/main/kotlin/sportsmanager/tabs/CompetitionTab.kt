@@ -6,11 +6,9 @@ import com.google.zxing.qrcode.QRCodeWriter
 import javafx.collections.MapChangeListener
 import javafx.embed.swing.SwingFXUtils
 import javafx.geometry.Pos
-import javafx.scene.control.Label
+import javafx.scene.control.Button
 import javafx.scene.control.ScrollPane
 import javafx.scene.control.Tab
-import javafx.scene.layout.AnchorPane
-import javafx.scene.layout.HBox
 import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
@@ -121,6 +119,7 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
         }
     }
 
+    private var selectedGame: Game? = null
     private val gameViewTitle = label(text = "1코트 1경기", color = Color.WHITE, size = 50.0)
     private val gameViewScores = listOf(
         label(text = "0", color = Color.WHITE, size = 60.0),
@@ -133,9 +132,15 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
         label(text = "네프", color = Color.WHITE, size = 30.0).apply { prefWidth = 100.0 }
     )
     private val gameViewSituations = listOf(
-        situationLabel("셔틀콕 부족", "dodgerblue"),
-        situationLabel("선수 없음", "chartreuse"),
-        situationLabel("선수 부상", "blueviolet")
+        situationButton("셔틀콕 부족", "dodgerblue") {
+            println("Situation1")
+        },
+        situationButton("선수 없음", "chartreuse") {
+            println("Situation2")
+        },
+        situationButton("선수 부상", "blueviolet") {
+            println("Situation3")
+        }
     )
     private val gameView = anchorpane {
         style = "-fx-background-color: #0009;"
@@ -218,6 +223,7 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
     }
 
     init {
+        closeGameView()
         controller.gameMap.addListener { change: MapChangeListener.Change<out String, out Game> ->
             println("Changed")
             if(change.wasAdded()) {
@@ -233,18 +239,35 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
         controller.stopPolling()
     }
 
+    private fun selectGame(game: Game) {
+        gameViewTitle.text = "${game.court}코트 ${game.number}경기"
+        gameViewScores.forEachIndexed { index, label -> label.text = game.scores[index].toString() }
+        selectedGame = game
+        gameView.isVisible = true
+    }
+
+    private fun closeGameView() {
+        selectedGame = null
+        gameView.isVisible = false
+    }
+
     private fun addGame(game: Game) {
         val gameView = GameView(game)
         val columnIndex = gameViewMap.size % 3
         val rowIndex = gameViewMap.size / 3
         gameViewMap[game.id] = gameView
         gameStatus.add(
-            gameView.root,
+            gameView,
             columnIndex,
-            rowIndex)
+            rowIndex
+        )
+        gameView.action {
+            println("Hello")
+            selectGame(game)
+        }
     }
 
-    private fun situationLabel(text: String, color: String) = Label(text).apply {
+    private fun situationButton(text: String, color: String, onClick: Button.() -> Unit = {}) = Button(text).apply {
         style = "-fx-background-color: $color; -fx-border-radius: 10;"
         font = Font(20.0)
         maxWidth = Double.MAX_VALUE
@@ -252,6 +275,9 @@ class CompetitionView(competition: Competition, managable: Boolean): View() {
         alignment = Pos.CENTER
         textFill = Color.WHITE
         isFocusTraversable = false
+        action {
+            this.onClick()
+        }
     }
 }
 

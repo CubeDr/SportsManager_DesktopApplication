@@ -2,13 +2,15 @@ package sportsmanager.components
 
 import javafx.geometry.Pos
 import javafx.scene.Parent
+import javafx.scene.control.Button
 import javafx.scene.control.Label
+import javafx.scene.layout.Background
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import sportsmanager.Game
 import tornadofx.*
 
-class GameView(val game: Game): View() {
+class GameView(val game: Game): Button() {
     // 게임의 상태(점수, 상황) 변경 알림 함수
     fun notifyGameChanged() {
         // 코트번호, 게임 번호 갱신
@@ -29,7 +31,7 @@ class GameView(val game: Game): View() {
         situationLabel("blueviolet")
     )
 
-    override val root: Parent = vbox {
+    val root: Parent = vbox {
         style="-fx-background-color: black; -fx-background-radius: 5 5 0 0;"
         prefWidth = 115.0
         prefHeight = 54.0
@@ -55,6 +57,9 @@ class GameView(val game: Game): View() {
 
     init {
         notifyGameChanged()
+        paddingAll = 0.0
+        background = Background.EMPTY
+        graphic = root
     }
 
     private fun scoreLabel(text: String? = null) = Label(text).apply {
