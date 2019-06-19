@@ -59,15 +59,6 @@ class MainTab(tabPane: TabPane, op: Tab.() -> Unit = {}): View("대회 목록") 
             prefWidth = 250.0
             prefHeight = 400.0
 
-            text("경기 정보") {
-                layoutY = 20.0
-            }
-            pane {
-                layoutY = 40.0
-                prefWidth = 230.0
-                prefHeight = 250.0
-                style="-fx-background-color: lightgray;"
-            }
             button("대회 입장") {
                 layoutY = 300.0
                 prefWidth = 230.0

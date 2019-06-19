@@ -1,7 +1,5 @@
 package sportsmanager
 
-import javafx.beans.InvalidationListener
-import javafx.collections.ObservableList
 import java.time.LocalDate
 import java.util.*
 
